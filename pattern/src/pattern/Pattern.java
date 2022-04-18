@@ -78,16 +78,56 @@ public class Pattern {
 	public void spiralPattern() {
 		int inp = 4;
 		int row = 2 * inp - 1;
-		int count = 1;
-		for (int i = 0; i < row; i++) {
-			for (int j = 0; j < row; j++) {
-				if (i == 0 || j == 0 || i == row - 1 || j == row - 1) {
-					System.out.print(inp);
+		for (int i = 1; i <= row; i++) {
+			for (int j = 1; j <= row; j++) {
+				System.out.print(Math.max(Math.abs(i - inp), Math.abs(j - inp)) + 1 + " ");
+			}
+			System.out.println();
+		}
+	}
+
+	public void alternatingXO() {
+		int inp = 4;
+		int row = 2 * inp - 1;
+		for (int i = 1; i <= row; i++) {
+			for (int j = 1; j <= row; j++) {
+				if ((Math.max(Math.abs(i - inp), Math.abs(j - inp)) + 1) % 2 == 0) {
+					System.out.print("O ");
 				} else {
-					System.out.print(inp - count);
+					System.out.print("X ");
 				}
 			}
 			System.out.println();
+		}
+	}
+
+	public void spiralPattern2() {
+		int SIZE = 5;
+		int i, j, N;
+		int[][] board = new int[SIZE][SIZE];
+		int left, top;
+		left = 0;
+		top = SIZE - 1;
+		N = 1;
+		for (i = 1; i <= SIZE / 2; i++, left++, top--) {
+			for (j = left; j <= top; j++, N++) {
+				board[left][j] = N;
+			}
+			for (j = left + 1; j <= top; j++, N++) {
+				board[j][top] = N;
+			}
+			for (j = top - 1; j >= left; j--, N++) {
+				board[top][j] = N;
+			}
+			for (j = top - 1; j >= left + 1; j--, N++) {
+				board[j][left] = N;
+			}
+		}
+		for (i = 0; i < SIZE; i++) {
+			for (j = 0; j < SIZE; j++) {
+				System.out.printf("%-5d", board[i][j]);
+			}
+			System.out.printf("\n");
 		}
 
 	}
@@ -221,14 +261,44 @@ public class Pattern {
 				System.out.print(" ");
 			}
 			for (j = 0; j <= i; j++) {
-				if (j == 0 || j == i) {
-					System.out.print(1 + " ");
+				if (j == 0 || i == 0) {
+					count = 1;
 				} else {
-					System.out.print(i + " ");
+					count = count * (i - j + 1) / j;
 				}
+				System.out.print(count + " ");
 			}
 			System.out.println();
 		}
+	}
+
+	public String lookAndSay(int n) {
+		if (n == 1) {
+			return "1";
+		}
+		if (n == 2) {
+			return "11";
+		}
+		String str = "11";
+		String temp = "";
+		int count = 1;
+		for (int i = 3; i <= n; i++) {
+			temp = "";
+			str += "$";
+			char arr[] = str.toCharArray();
+			int length = str.length();
+			for (int j = 1; j < length; j++) {
+				if (arr[j] != arr[j - 1]) {
+					temp += count;
+					temp += arr[j - 1];
+					count = 1;
+				} else {
+					count++;
+				}
+			}
+			str = temp;
+		}
+		return str;
 	}
 
 	public static void main(String[] args) {
@@ -288,6 +358,15 @@ public class Pattern {
 		}
 		case 13: {
 			obj.hallowDiamond();
+			break;
+		}
+
+		case 14: {
+			obj.alternatingXO();
+			break;
+		}
+		case 15: {
+			obj.spiralPattern2();
 			break;
 		}
 		}
